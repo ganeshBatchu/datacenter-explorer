@@ -1,0 +1,16 @@
+.DS_Store
+node_modules/
+# Excel lock files, created while the workbook is open
+~$*.xlsx
+
+# --- Research dataset: never commit ---
+# The app reads the workbook from Northeastern SharePoint per signed-in viewer
+# (see docs/entra-setup.md), so the dataset must not live in this repo. These
+# files are kept locally for offline development and for export_data.py.
+data/*.xlsx
+data/consolidated.json
+data/consolidated.csv
+# data/countries.geo.json IS tracked — public Natural Earth polygons.
+
+# Machine-specific editor/launcher config
+.claude/

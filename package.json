@@ -1,0 +1,14 @@
+{
+  "name": "datacenter-explorer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive explorer for a geopolitical dataset on global data-centre infrastructure: capacity, ownership and jurisdictional control.",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "refresh": "python3 scripts/refresh.py",
+    "export": "python3 scripts/export_data.py",
+    "check": "python3 scripts/export_data.py --check"
+  },
+  "license": "UNLICENSED"
+}

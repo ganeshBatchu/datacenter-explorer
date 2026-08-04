@@ -1,0 +1,83 @@
+name: Deploy site
+
+# The dataset is NOT committed to this repository. It is downloaded from its
+# public OneDrive share link here, at build time, and published alongside the
+# site — so the browser fetches it same-origin (no CORS, no proxy, no sign-in)
+# while git history stays free of research data.
+#
+# Triggers: every push, a schedule so edits to the workbook appear without a
+# push, and a manual button for "I just saved the spreadsheet, publish now".
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Hourly. GitHub may delay scheduled runs under load; use the manual
+    # "Run workflow" button when you want an immediate refresh.
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; let a newer one supersede a queued older one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Download the workbook from OneDrive
+        run: node scripts/fetch-workbook.mjs --out data/master_dataset_1_values_2.xlsx
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install openpyxl
+        run: python3 -m pip install --quiet openpyxl
+
+      # Fails the build if a required header cell is missing, rather than
+      # publishing a dataset the app cannot read. This is a real failure mode:
+      # clearing Facilities!A1 in Excel makes every row look unidentified.
+      - name: Validate the workbook schema
+        run: python3 scripts/export_data.py --check
+
+      # Flat exports for pandas/R/Stata, published next to the workbook.
+      - name: Generate CSV + JSON exports
+        run: python3 scripts/export_data.py
+
+      - name: Report what will be published
+        run: |
+          echo "### Published dataset" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          python3 scripts/export_data.py --check | head -20 >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/configure-pages@v5
+
+      # Uploads the working directory, so the freshly downloaded (untracked)
+      # workbook is included even though git ignores it.
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

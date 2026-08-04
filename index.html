@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global Data-Centre Infrastructure — Capacity &amp; Jurisdictional Control</title>
+<meta name="description" content="Interactive explorer for a geopolitical research dataset on global data-centre infrastructure: capacity, ownership, jurisdiction and control across 194 facilities in 17 countries.">
+
+<!-- Restore the theme stamp before first paint so there is no flash of the wrong theme. -->
+<script>
+  try {
+    var t = localStorage.getItem('dc-theme');
+    if (t) document.documentElement.dataset.theme = t;
+  } catch (e) { /* private browsing */ }
+</script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+      integrity="sha256-YU3qCpj/P06tdPBJGPax0bm6Q1wltfwjsho5TR4+TYc=" crossorigin="">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+
+<div id="app">
+  <div class="loading"><div class="spinner"></div><div>Loading…</div></div>
+</div>
+
+<noscript>
+  <div class="error">
+    <h2>JavaScript required</h2>
+    <p>This explorer reads and renders the dataset in the browser, so it needs JavaScript enabled.</p>
+  </div>
+</noscript>
+
+<!--
+  Three dependencies, all pinned with SRI hashes:
+    leaflet + markercluster — the map and the spiderfy behaviour that makes
+      co-located facilities (6 at Ashburn, 6 at Dublin) individually clickable
+    xlsx (SheetJS) — parses the workbook, fetched at runtime from a public
+      OneDrive link so the dataset never ships with the app
+  Charts are hand-rendered SVG/DOM; no plotting library.
+-->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"
+        integrity="sha256-Hk4dIpcqOSb0hZjgyvFOP+cEmDXUKKNE/tT542ZbNQg=" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"
+        integrity="sha256-yVBhl8r4CaB1tt7h2g02+xnacVj/6KiOewyWxdhiPJk=" crossorigin="anonymous"></script>
+
+<script type="module" src="src/app.js"></script>
+</body>
+</html>
