@@ -8,7 +8,7 @@ script makes the manual refresh safe.
 
 Its real job is guarding against picking the wrong file. There are several
 similarly-named workbooks in ~/Downloads representing different passes
-(104 / 134 / 194 facilities), so this counts the rows in each candidate,
+(104 / 134 / 194 / 244 facilities), so this counts the rows in each candidate,
 shows you what changed, and refuses to silently install a smaller dataset.
 
     python3 scripts/refresh.py              # inspect, then prompt
@@ -34,7 +34,7 @@ except ImportError:
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-BUNDLED = os.path.join(ROOT, "data", "master_dataset_1_values_2.xlsx")
+BUNDLED = os.path.join(ROOT, "data", "master_dataset_1_values_3.xlsx")
 DEFAULT_SRC = os.path.expanduser("~/Downloads")
 
 SHEET = "Facilities"

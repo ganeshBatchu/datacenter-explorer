@@ -20,7 +20,7 @@ export function createFilterBar() {
   });
   let searchTimer = null;
   searchInput.addEventListener('input', () => {
-    // Debounced: typing re-filters 194 records and re-renders nine views.
+    // Debounced: typing re-filters 244 records and re-renders every view.
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => store.set('search', searchInput.value.trim()), 140);
   });

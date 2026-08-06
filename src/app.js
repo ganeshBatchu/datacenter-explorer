@@ -9,6 +9,7 @@ import { createBanner, createFilterBar, createStats } from './views/filters.js';
 import { createMap } from './views/map.js';
 import { createRankedBars, createTierBars, createComposition, createTreemap } from './views/bars.js';
 import { createCapacityHistogram, createScatter } from './views/plots.js';
+import { createHeatmap } from './views/heatmap.js';
 import { createDetail, createTable } from './views/detail.js';
 import { clear, el, fmtInt } from './views/util.js';
 
@@ -76,10 +77,17 @@ function render(source, meta) {
   });
 
   const treemap = createTreemap({ span: 'c6' });
+  const heatmap = createHeatmap({
+    span: 'c6',
+    title: 'Heatmap',
+    dims: ['country', 'operatorCountry', 'ownerCountry', 'ownership', 'operatorType',
+      'serviceModel', 'region', 'operator', 'status', 'waterStress', 'envRisk',
+      'regQuality', 'polStability', 'fotnBand', 'dataLocalization', 'fdiScreening'],
+  });
   const table = createTable({ span: 'c12' });
 
   const views = [stats, map, detail, byCountry, byOperator, byNationality,
-    histogram, scatter, water, envRisk, composition, treemap, table];
+    histogram, scatter, water, envRisk, composition, treemap, heatmap, table];
 
   const grid = el('div', { class: 'grid' }, [
     stats.root,
@@ -87,7 +95,7 @@ function render(source, meta) {
     byCountry.root, byOperator.root, byNationality.root,
     histogram.root, scatter.root,
     water.root, envRisk.root, composition.root,
-    treemap.root,
+    treemap.root, heatmap.root,
     table.root,
   ]);
 

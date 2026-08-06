@@ -20,7 +20,7 @@
  * redirect crosses origin (1drv.ms → onedrive.live.com), which is exactly where
  * the cookie is needed.
  *
- *   node scripts/fetch-workbook.mjs [--out data/master_dataset_1_values_2.xlsx]
+ *   node scripts/fetch-workbook.mjs [--out data/master_dataset_1_values_3.xlsx]
  */
 
 import { writeFileSync, mkdirSync } from 'node:fs';
@@ -33,7 +33,7 @@ const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
   + '(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 
 const outArg = process.argv.indexOf('--out');
-const OUT = resolve(outArg > -1 ? process.argv[outArg + 1] : 'data/master_dataset_1_values_2.xlsx');
+const OUT = resolve(outArg > -1 ? process.argv[outArg + 1] : 'data/master_dataset_1_values_3.xlsx');
 
 /** Smallest plausible size for this workbook; guards against a truncated body. */
 const MIN_BYTES = 50_000;

@@ -6,7 +6,7 @@
  * "service model" in the whole app.
  *
  * Column names below are the literal header strings read from the workbook on
- * 2026-08-04 (master_dataset_1_values_2.xlsx). If a header is renamed upstream,
+ * 2026-08-06 (master_dataset_1_values_3.xlsx). If a header is renamed upstream,
  * COLS is the only place that needs editing.
  */
 
@@ -278,7 +278,7 @@ export const wgiRank = (b) => WGI_ORDER.indexOf(s(b));
 
 /**
  * Freedom House FOTN score -> the standard published band.
- * 34 of 194 facilities sit in countries absent from FOTN, which is a real
+ * 41 of 244 facilities sit in countries absent from FOTN, which is a real
  * category ('Not rated'), not a zero.
  */
 export function fotnBand(score) {
@@ -347,9 +347,9 @@ export function assertSchema(sheets) {
 /**
  * Joins the four sheets into one record per facility.
  *
- * All four joins were verified clean against master_dataset_1_values_2.xlsx:
- * 194/194 facility IDs present in both facility-grain sheets, no duplicate IDs,
- * 194/194 operator cells matching the Operators sheet exactly, and every
+ * All four joins were verified clean against master_dataset_1_values_3.xlsx:
+ * 244/244 facility IDs present in both facility-grain sheets, no duplicate IDs,
+ * 244/244 operator cells matching the Operators sheet exactly, and every
  * facility country present in Jurisdictions. Unmatched keys are still surfaced
  * on `meta.joinWarnings` so upstream edits that break a join are visible
  * instead of silently producing nulls.

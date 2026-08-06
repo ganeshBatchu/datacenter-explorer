@@ -13,14 +13,14 @@
 > in section 5 cannot fix a work-account link: that failure is authorization, not
 > CORS.
 
-The app can read `master_dataset_1_values_2.xlsx` straight from a public
+The app can read `master_dataset_1_values_3.xlsx` straight from a public
 OneDrive / SharePoint link, so viewers always see your latest edits without a
 redeploy. This page covers how to set it up, how to test whether your link is
 actually fetchable, and what to do when it isn't.
 
 ## 1. Share the workbook from a personal Microsoft account
 
-Upload `master_dataset_1_values_2.xlsx` to the OneDrive of a **personal**
+Upload `master_dataset_1_values_3.xlsx` to the OneDrive of a **personal**
 Microsoft account (outlook.com / hotmail.com / live.com — not a university or
 work account), then share it as **"Anyone with the link"** and copy that link.
 

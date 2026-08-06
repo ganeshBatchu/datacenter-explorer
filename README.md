@@ -1,7 +1,7 @@
 # Global Data-Centre Infrastructure Explorer
 
 An interactive explorer for a geopolitical research dataset on global data-centre
-infrastructure — 194 facilities, 17 countries, 73 operators — built to examine
+infrastructure — 244 facilities, 17 countries, 69 operators — built to examine
 **capacity and jurisdictional control** rather than raw facility counts.
 
 Unit of analysis is the facility; aggregation to the country is done in the app.
@@ -17,7 +17,7 @@ node scripts/serve.mjs            # → http://localhost:4173
 ```
 
 `?local=1` is a dev shortcut that reads the local copy explicitly; without it the
-app reads `data/master_dataset_1_values_2.xlsx` either way.
+app reads `data/master_dataset_1_values_3.xlsx` either way.
 
 > **The dataset is effectively public.** The published site serves the workbook to
 > anyone who opens it. This was a deliberate trade for near-live data with no
@@ -29,10 +29,10 @@ Leaflet.markercluster, SheetJS), all from CDN with SRI hashes.
 
 ---
 
-## Read this first: capacity is coded for 30% of the dataset
+## Read this first: capacity is coded for 25% of the dataset
 
-`Capacity (MW)` is free text in the workbook, and only **59 of 194 facilities**
-carry a usable number (7,076 MW total). The rest are `→`, `→ to verify`,
+`Capacity (MW)` is free text in the workbook, and only **62 of 244 facilities**
+carry a usable number (7,207 MW total). The rest are `→`, `→ to verify`,
 `region`, `site (MW n/p)`, or — for two rows — a **floor area in m²**, which is
 not power and is never read as MW.
 
@@ -41,8 +41,8 @@ has been sourced* as much as real capacity:
 
 | Country | Facilities | Capacity coded for | Summed MW |
 |---|---|---|---|
-| United States | 56 | 11 | 2,652 |
-| China | 19 | 5 | 833 |
+| United States | 74 | 12 | 2,670 |
+| China | 22 | 5 | 833 |
 | Malaysia | 11 | 7 | 908 |
 | Netherlands | 7 | **0** | **0** |
 | United Kingdom | 7 | 1 | 80 |
@@ -51,10 +51,10 @@ The workbook's own README says these were left blank deliberately, because
 operator IT load is proprietary. The app therefore never silently treats a blank
 as zero. Instead:
 
-- **Coded only** (default) — aggregates the 59 real figures, with a live
+- **Coded only** (default) — aggregates the 62 real figures, with a live
   "*n* of *m* coded" badge on every capacity view and a coverage banner pinned
   to the top of the page.
-- **Estimated** — fills the 135 gaps from the median of coded facilities sharing
+- **Estimated** — fills the 182 gaps from the median of coded facilities sharing
   the same operator, then operator class, then the global median. Every imputed
   value is flagged (dashed marker outline, italic table cell, warning banner) and
   **excluded from the CSV export's main capacity column**. These numbers are not
@@ -66,18 +66,19 @@ as zero. Instead:
 
 ## Other data-quality caveats the app surfaces
 
-- **Coordinates are city/area centroids at 2 decimal places** (~1.1 km), 16 rows
-  at 1 dp (~11 km) — not site locations. Many facilities share a point exactly:
-  6 at Ashburn, 6 at Dublin, 5 at Frankfurt, 4 each at Johor, Singapore, Mumbai
-  and Chennai. Marker clustering with spiderfy-on-max-zoom is what makes those
-  individually clickable. Coordinate coverage is 194/194.
+- **Coordinates are city/area centroids at 2 decimal places** (~1.1 km), 17 rows
+  at 1 dp (~11 km) plus 2 at whole-degree precision — not site locations. Many
+  facilities share a point exactly: 10 at Frankfurt, 7 at Tokyo, 6 each at
+  Dublin, Ashburn and Singapore, 5 each at Chennai and Sydney, 4 each at Mumbai
+  and the two Johor sites. Marker clustering with spiderfy-on-max-zoom is what
+  makes those individually clickable. Coordinate coverage is 243/243.
 - **`Environmental risk tier` is derived, not observed** — 3 values, and the
   workbook README describes it as *inferred* from operator class. The WRI
   water-stress tier (6 levels) is the better environmental axis and is the
   scatter's default y.
-- **`Internet freedom` is missing for 34 facilities** whose host country is
-  absent from Freedom House's FOTN (Malaysia, UAE, Sweden, Ireland …). That is a
-  real category — `Not rated (absent from FOTN)` — not a zero.
+- **`Internet freedom` is missing for 41 facilities** whose host country is
+  absent from Freedom House's FOTN (Australia, Canada, Ireland, Sweden). That is
+  a real category — `Not rated (absent from FOTN)` — not a zero.
 - **Operator nationality is a composite string**, parsed into
   `operatorCountry` / `nChineseOperators`, and owner origin additionally yields
   `domicile` so Cayman/VIE structures are a first-class filter. Multi-country
@@ -86,15 +87,16 @@ as zero. Instead:
   "primary" nationality is an analytical choice the app deliberately does not
   make for you.
 - **DC-0001 is the workbook's placeholder example row** (`(example) Equinix SG3`).
-  It is excluded by default, which is why the app reports 193 where the workbook
-  has 194.
+  It is excluded by default, which is why the facilities stat tile reports 243
+  where the workbook has 244 (the topbar count, which never excludes it,
+  still reads 244).
 - **Category labels are inconsistent upstream** — `Service model` has 18 labels
   for ~4 real classes, `Operator type` 22 for ~6, `Facility status` 6 for 2,
   `Water-stress` 10 for 6 tiers plus appended basin notes. The **Grouped / Raw**
   switch toggles between collapsed labels and the verbatim strings; the exact
   original is always shown in the facility detail panel.
-- All four sheet joins are clean: 194/194 facility IDs match across `Facilities`
-  and `Consolidated (all layers)`, 194/194 operator cells match `Operators`
+- All four sheet joins are clean: 244/244 facility IDs match across `Facilities`
+  and `Consolidated (all layers)`, 244/244 operator cells match `Operators`
   exactly, every facility country is present in `Jurisdictions`. Any future
   breakage shows as a "join warnings" badge in the header rather than silent nulls.
 
@@ -102,15 +104,15 @@ as zero. Instead:
 
 ## Where the data comes from
 
-`master_dataset_1_values_2.xlsx`, fetched at load time from a public OneDrive
-link. **This is the file matching the project's stated scale (194 / 17 / 73);**
-the similarly-named `master_dataset_1_values.xlsx` has only 104 facilities and
-`master_dataset_1_values_1.xlsx` 134.
+`master_dataset_1_values_3.xlsx`, fetched at load time from a public OneDrive
+link. **This is the file matching the project's stated scale (244 / 17 / 69);**
+the similarly-named `master_dataset_1_values.xlsx` has only 104 facilities,
+`master_dataset_1_values_1.xlsx` 134, and `master_dataset_1_values_2.xlsx` 194.
 
 The workbook is **not committed**. `.gitignore` blocks `data/*.xlsx`,
 `data/consolidated.json` and `data/consolidated.csv`, so it cannot be added by
 accident; the only tracked file in `data/` is `countries.geo.json` (public
-Natural Earth polygons). A local copy at `data/master_dataset_1_values_2.xlsx` is
+Natural Earth polygons). A local copy at `data/master_dataset_1_values_3.xlsx` is
 still useful — `export_data.py`, `refresh.py` and `?local=1` all use it — but it
 never enters git.
 
@@ -148,13 +150,14 @@ without you seeing it.
 
 ```
 currently bundled:
-  master_dataset_1_values_2.xlsx    194 facilities · 17 countries ·  66 operators
+  master_dataset_1_values_3.xlsx    244 facilities · 17 countries ·  69 operators
 
 candidates in /Users/you/Downloads:
     master_dataset.xlsx                 1 facilities ·  1 countries ·   1 operators  [!] no consolidated sheet
     master_dataset_1_values.xlsx      104 facilities · 17 countries ·  35 operators
     master_dataset_1_values_1.xlsx    134 facilities · 17 countries ·  47 operators
-  → master_dataset_1_values_2.xlsx    194 facilities · 17 countries ·  66 operators
+    master_dataset_1_values_2.xlsx    194 facilities · 17 countries ·  66 operators
+  → master_dataset_1_values_3.xlsx    244 facilities · 17 countries ·  69 operators
 ```
 
 Then reload the app. No export step is required for the app itself to work.
@@ -204,9 +207,16 @@ data-localization regime, FDI screening.
 **Scatter** — any two axes from five numeric measures (MW, FOTN score, WGI rule of
 law, grid carbon, year RFS) and five ordinal ones (water stress, environmental
 risk, WGI bands, FOTN band). Capacity defaults to a log x-axis because coded
-values span 6–1,289 MW. Ordinal axes are deterministically jittered.
+values span 2.3–1,289 MW. Ordinal axes are deterministically jittered.
 
 **Treemap** — capacity by country → operator.
+
+**Heatmap** — a two-dimension cross-tab (default: host country × operator
+nationality) coloured by the same single-hue sequential ramp as the choropleth,
+with switchable row/column dimensions and an MW/site-count toggle. Clicking a
+cell cross-filters both axes at once; row and column headers stay legible to a
+screen reader via `scope="row"`/`scope="col"` rather than colour carrying the
+only signal.
 
 **Facility detail** — all 35+ fields grouped by the workbook's own Layer 0–5
 bands, showing raw values, plus status flags for BIS / OFAC listing, offshore
@@ -337,6 +347,7 @@ src/
     map.js                  markers, clustering, choropleth
     bars.js                 ranked bars, tier bars, composition, treemap
     plots.js                capacity histogram, linked scatter
+    heatmap.js               two-dimension cross-tab, sequential ramp
     detail.js               facility detail panel, table view, CSV export
 scripts/
   serve.mjs                 static dev server
@@ -347,7 +358,7 @@ docs/
   onedrive.md               share-link setup, what was tested, the gated fallback
 data/
   countries.geo.json               Natural Earth 110m, trimmed to 17 countries (tracked)
-  master_dataset_1_values_2.xlsx   local copy — gitignored, never committed
+  master_dataset_1_values_3.xlsx   local copy — gitignored, never committed
   consolidated.json / .csv         generated exports — gitignored
 ```
 

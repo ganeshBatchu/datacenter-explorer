@@ -30,7 +30,7 @@ const HEADER_ROW = { facilities: 1, consolidated: 2, operators: 1, jurisdictions
  * you can work on the views offline. The workbook is gitignored, so this does
  * nothing on a fresh clone and never affects the deployed site.
  */
-const DEV_LOCAL_PATH = 'data/master_dataset_1_values_2.xlsx';
+const DEV_LOCAL_PATH = 'data/master_dataset_1_values_3.xlsx';
 const wantsLocal = () => new URLSearchParams(window.location.search).has('local');
 
 /** Reads one worksheet into objects keyed by its real header strings. */

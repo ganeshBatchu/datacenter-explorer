@@ -452,6 +452,41 @@ button, select, input { font-family: inherit; font-size: inherit; color: inherit
   pointer-events: none;
 }
 
+/* Heatmap — two-dimension cross-tab, single-hue sequential ramp per cell. */
+.heatmap-wrap { overflow-x: auto; padding: 0 12px 12px; }
+table.hm-table { border-collapse: separate; border-spacing: 3px; font-size: 11px; }
+table.hm-table th.hm-corner { background: transparent; }
+table.hm-table th.hm-col {
+  font-weight: 600; color: var(--text-muted); text-align: left;
+  position: relative; height: 82px; padding: 0; vertical-align: bottom;
+}
+table.hm-table th.hm-col span {
+  /* Absolutely positioned so the rotated box paints inside the reserved
+     82px row height rather than spilling above it — a card clips overflow,
+     and a transform never grows its untransformed layout box to compensate. */
+  position: absolute; left: 4px; bottom: 6px;
+  display: inline-block; transform: rotate(-38deg); transform-origin: bottom left;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 108px;
+}
+table.hm-table th.hm-row {
+  font-weight: 600; color: var(--text-secondary); text-align: right;
+  padding: 0 8px 0 2px; white-space: nowrap; max-width: 140px;
+  overflow: hidden; text-overflow: ellipsis;
+}
+td.hm-td { padding: 0; }
+.hm-cell {
+  display: grid; place-items: center;
+  width: 100%; min-width: 34px; height: 26px;
+  border: 0; border-radius: 4px; padding: 0; cursor: pointer;
+  transition: opacity var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+.hm-cell:hover { opacity: .85; box-shadow: inset 0 0 0 2px var(--surface-1); }
+.hm-cell.is-on { box-shadow: inset 0 0 0 2px var(--accent), 0 0 0 2px var(--accent); }
+.hm-cell .hm-val { font-size: 10px; font-weight: 650; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.hm-cell.is-dark-bg .hm-val { color: #fff; }
+.hm-cell.hm-empty { cursor: default; }
+.hm-cell.hm-empty:hover { opacity: 1; box-shadow: none; }
+
 /* ==========================================================================
    Tooltip — enhances, never gates. Every value is also in the table view.
    ========================================================================== */

@@ -22,7 +22,7 @@ export function setupScreen() {
     }),
     el('ol', { class: 'steps' }, [
       el('li', { html: 'Set <code>workbookUrl</code> in <code>src/config.js</code> '
-        + '(default: <code>data/master_dataset_1_values_2.xlsx</code>).' }),
+        + '(default: <code>data/master_dataset_1_values_3.xlsx</code>).' }),
       el('li', { html: 'Make sure <code>.github/workflows/deploy.yml</code> has run — it is what '
         + 'puts the workbook there.' }),
       el('li', { text: 'Reload this page.' }),
@@ -76,7 +76,7 @@ export function errorScreen({ error, onRetry }) {
     hints.push('The link may have been rotated, revoked or the file moved. Re-copy the share link.');
   }
   if (/no local copy on disk/i.test(msg)) {
-    hints.push('?local=1 needs data/master_dataset_1_values_2.xlsx present locally. '
+    hints.push('?local=1 needs data/master_dataset_1_values_3.xlsx present locally. '
       + 'Run "node scripts/fetch-workbook.mjs", or drop ?local=1.');
   }
   if (/deploy workflow may not/i.test(msg)) {

@@ -38,7 +38,7 @@ jobs:
           node-version: '20'
 
       - name: Download the workbook from OneDrive
-        run: node scripts/fetch-workbook.mjs --out data/master_dataset_1_values_2.xlsx
+        run: node scripts/fetch-workbook.mjs --out data/master_dataset_1_values_3.xlsx
 
       - uses: actions/setup-python@v5
         with:

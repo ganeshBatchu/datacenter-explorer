@@ -72,12 +72,13 @@ export function effectiveMw(r) {
 // Filtering
 // ---------------------------------------------------------------------------
 
-function passes(r, { skipDim = null } = {}) {
+function passes(r, { skipDim = null, skipDims = null } = {}) {
   if (state.excludePlaceholder && r.isPlaceholder) return false;
 
   for (const [dim, values] of state.filters) {
     if (!values || values.size === 0) continue;
     if (dim === skipDim) continue;
+    if (skipDims && skipDims.has(dim)) continue;
     if (!values.has(dimValue(r, dim, state.useRaw))) return false;
   }
   for (const [measure, [lo, hi]] of state.ranges) {
@@ -111,6 +112,8 @@ export function view() {
     state: { ...state, filters: new Map(state.filters), ranges: new Map(state.ranges) },
     /** Records filtered by everything *except* `dim` — for that dim's own chart. */
     exceptDim: (dim) => all.filter((r) => passes(r, { skipDim: dim })),
+    /** Same, but excluding several dimensions at once — for a two-axis heatmap. */
+    exceptDims: (dims) => all.filter((r) => passes(r, { skipDims: new Set(dims) })),
     stats: {
       n: records.length,
       nTotal: base.length,

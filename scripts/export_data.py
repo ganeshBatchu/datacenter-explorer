@@ -13,7 +13,7 @@ reporting the same coverage figures the app displays, so drift is visible.
 
 Usage:
     python3 scripts/export_data.py
-    python3 scripts/export_data.py --xlsx ~/Downloads/master_dataset_1_values_2.xlsx
+    python3 scripts/export_data.py --xlsx ~/Downloads/master_dataset_1_values_3.xlsx
     python3 scripts/export_data.py --check
 """
 
@@ -34,7 +34,7 @@ except ImportError:
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-DEFAULT_XLSX = os.path.join(ROOT, "data", "master_dataset_1_values_2.xlsx")
+DEFAULT_XLSX = os.path.join(ROOT, "data", "master_dataset_1_values_3.xlsx")
 
 SHEET_FACILITIES = "Facilities"
 SHEET_CONSOLIDATED = "Consolidated (all layers)"

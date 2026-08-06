@@ -17,7 +17,7 @@ export const CONFIG = {
    * The workbook as published by the deploy workflow, relative to index.html.
    * Same-origin, so no CORS is involved.
    */
-  workbookUrl: 'data/master_dataset_1_values_2.xlsx',
+  workbookUrl: 'data/master_dataset_1_values_3.xlsx',
 
   /**
    * OPTIONAL: fetch straight from OneDrive on every page load instead, for
