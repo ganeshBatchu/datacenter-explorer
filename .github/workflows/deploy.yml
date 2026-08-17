@@ -23,9 +23,11 @@ permissions:
   id-token: write
 
 # Never let two deploys race; let a newer one supersede a queued older one.
+# cancel-in-progress stays false so an in-flight deploy-pages call is never
+# interrupted mid-transaction (that can leave the Pages deployment stuck).
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
