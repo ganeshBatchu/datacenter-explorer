@@ -18,15 +18,8 @@ import { buildScale, seqColor, SEQ_BLUE, NO_DATA_COLOR, isDark } from '../colors
 import { card, clear, el, fmtInt, fmtMw, hideTip, showTip, tipContent, BASIS_LABEL, REASON_LABEL } from './util.js';
 import { CONFIG } from '../config.js';
 
-const BASEMAP = {
-  light: 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
-  dark: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
-};
-const LABELS = {
-  light: 'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',
-  dark: 'https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png',
-};
-const ATTRIB = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>';
+const BASEMAP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
+const ATTRIB = 'Tiles &copy; <a href="https://www.esri.com/">Esri</a> &mdash; Source: Esri, TomTom, Garmin, FAO, NOAA, USGS, &copy; OpenStreetMap contributors, and the GIS User Community';
 
 export function createMap() {
   const ui = card('Geography', { span: 'c8', bodyClass: 'flush' });
@@ -67,13 +60,13 @@ export function createMap() {
   map.on('click focus', () => map.scrollWheelZoom.enable());
   map.on('mouseout blur', () => map.scrollWheelZoom.disable());
 
-  let tileBase = null; let tileLabels = null;
+  let tileBase = null;
   function setTiles() {
-    const m = isDark() ? 'dark' : 'light';
     if (tileBase) map.removeLayer(tileBase);
-    if (tileLabels) map.removeLayer(tileLabels);
-    tileBase = L.tileLayer(BASEMAP[m], { attribution: ATTRIB, maxZoom: 18, subdomains: 'abcd' }).addTo(map);
-    tileLabels = L.tileLayer(LABELS[m], { maxZoom: 18, subdomains: 'abcd', pane: 'shadowPane' }).addTo(map);
+    tileBase = L.tileLayer(BASEMAP, {
+      attribution: ATTRIB,
+      maxZoom: 19,
+    }).addTo(map);
   }
   setTiles();
 
@@ -343,4 +336,3 @@ export function createMap() {
 
   return { root: ui.root, render, renderHover, focusFacility, invalidate: () => map.invalidateSize(), onThemeChange: () => { setTiles(); render(); } };
 }
-
